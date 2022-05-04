@@ -17,6 +17,58 @@ ShiftRegister74HC595<1> sr(21, 22, 23);
 
 FirebaseData firebaseData;
 
+class Device {
+  public:
+    Device() {}
+
+    Device(int _pin, std::string _path) {
+        setPin(_pin);
+        setPath(_path);
+    }
+
+    ~Device() {}
+
+    int getPin() const {
+      return pin;
+    }
+
+    std::string getPath() const {
+      return path;
+    }
+
+    void setPin(int _pin) {
+      pin = _pin;
+    }
+
+    void setPath(std::string _path) {
+      path = _path;
+    }
+
+    void setDeviceState() {
+      if (Firebase.getString(firebaseData, path)) {
+        String ledstatus = firebaseData.stringData();
+        if (ledstatus.toInt() == 1) {
+          Serial.println("on3");
+          sr.setAllHigh(); // set all pins HIGH
+          sr.set(pin, LOW);
+        } else {
+          Serial.println("off3");
+          sr.setAllHigh(); // set all pins HIGH
+          sr.set(pin, HIGH);
+        }
+      } else {
+        Serial.print("Error in getInt, ");
+        Serial.println(firebaseData.errorReason());
+      }
+    }
+
+  private:
+    int pin;
+    std::string path;
+};
+
+Device led1(0, "/Led1Status");
+
 void setup ()
 {
   Serial.begin(9600);
@@ -35,7 +87,8 @@ void setup ()
 }
 
 void loop() {
-  if (Firebase.getString(firebaseData, "/Led1Status"))
+  led1.setDeviceState();
+  /*if (Firebase.getString(firebaseData, "/Led1Status"))
   {
     String ledstatus = firebaseData.stringData();
     if (ledstatus.toInt() == 1) {
@@ -52,5 +105,5 @@ void loop() {
   else {
     Serial.print("Error in getInt, ");
     Serial.println(firebaseData.errorReason());
-  }
+  }*/
 }
