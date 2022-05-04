@@ -1,0 +1,139 @@
+*{
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    list-style: none;
+    box-sizing: border-box;
+}
+
+body {
+    background: #ffffff;
+    font-family: montserrat;
+}
+
+nav {
+    background: #0082e6;
+    height: 80px;
+    width: 100%;
+}
+
+label.logo {
+    color: white;
+    font-size: 35px;
+    line-height: 80px;
+    padding: 0 100px;
+    font-weight: bold;
+}
+
+nav ul {
+    float: right;
+    margin-right: 20px;
+}
+
+nav ul li {
+    display: inline;
+    line-height: 80px;
+    margin: 0 5px;
+}
+
+nav ul li a {
+    color: white;
+    font-size: 17px;
+    padding: 7px 13px;
+    border-radius: 3px;
+    text-transform: uppercase;
+}
+
+a.active,a:hover {
+    background: #1b9bff;
+    transition: .5s;
+}
+
+.wrapper {
+    margin: 50px;
+    display: flex;
+}
+
+.progress {
+    margin: 30px auto;
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.box_bath,
+.box_cuisine,
+.box_salon,
+.box_chambre
+{
+    width: 300px;
+    height: 200px;
+    background: rgb(255, 255, 255);
+    border-radius: 1em;
+    box-shadow: -5px 8px 19px -1px rgba(0, 0, 0, 0.57);
+    margin: 70px;
+}
+
+.toggle-btn,
+.toggle-btn1,
+.toggle-btn2,
+.toggle-btn3 {
+    width: 60px;
+    height: 20px;
+    background: gray;
+    border-radius: 30px;
+
+    transition: all 300ms ease-in-out;
+}
+
+.toggle-btn>.inner-circle,
+.toggle-btn1>.inner-circle,
+.toggle-btn2>.inner-circle,
+.toggle-btn3>.inner-circle {
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border-radius: 50%;
+    transition: all 300ms ease-in-out;
+}
+
+.toggle-btn.active {
+
+    background: #2169f3;
+    box-shadow: 0 0 10px #2196f3, 0 0 40px #2196f3, 0 0 80px #2196f3;
+    transition-delay: 0.5s;
+}
+
+.toggle-btn1.active {
+
+    background: #f3219c;
+    box-shadow: 0 0 10px #f3219c, 0 0 40px #f3219c, 0 0 80px #f3219c;
+    transition-delay: 0.5s;
+}
+
+.toggle-btn2.active {
+
+    background: #21ecf3;
+    box-shadow: 0 0 10px #21ecf3, 0 0 40px #21ecf3, 0 0 80px #21ecf3;
+    transition-delay: 0.5s;
+}
+
+.toggle-btn3.active {
+    background: #a3f321;
+    box-shadow: 0 0 10px #a3f321, 0 0 40px #a3f321, 0 0 80px #a3f321;
+    transition-delay: 0.5s;
+}
+
+.toggle-btn.active>.inner-circle,
+.toggle-btn1.active>.inner-circle,
+.toggle-btn2.active>.inner-circle,
+.toggle-btn3.active>.inner-circle {
+    margin-left: 40px;
+}
+
+.icon1 {
+    color: rgb(0, 0, 0);
+    margin: 10px auto;
+}
