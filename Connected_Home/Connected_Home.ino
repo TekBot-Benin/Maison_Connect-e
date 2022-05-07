@@ -8,6 +8,7 @@
 
 #define WIFI_SSID "AADS-GUEST-SC"
 #define WIFI_PASSWORD "5m9Bg3zVYp2v"
+#include <DHT.h>
 
 #define FIREBASE_HOST "https://my-home-d35d6-default-rtdb.europe-west1.firebasedatabase.app" // change here
 #define FIREBASE_AUTH "6CrOPpPHJJ5Wgf85A0NJ1PC5Q3dSmdXF8CE58kSh"
@@ -49,11 +50,11 @@ class Device {
         String ledstatus = firebaseData.stringData();
         if (ledstatus.toInt() == 1) {
           Serial.println("on3");
-          sr.setAllHigh(); // set all pins HIGH
+          //sr.setAllHigh(); // set all pins HIGH
           sr.set(pin, LOW);
         } else {
           Serial.println("off3");
-          sr.setAllHigh(); // set all pins HIGH
+          //sr.setAllHigh(); // set all pins HIGH
           sr.set(pin, HIGH);
         }
       } else {
@@ -61,13 +62,44 @@ class Device {
         Serial.println(firebaseData.errorReason());
       }
     }
-
-  private:
+    virtual void uploadDeviceValue() {
+      
+    }
+  protected:
     int pin;
     std::string path;
 };
 
-Device led1(0, "/Led1Status");
+class Temp : public Device {
+  public:
+    Temp(int _pin, std::string _path, DHT _sensor): Device(_pin, _path), sensor(_sensor) {};
+    ~Temp() {};
+    void uploadDeviceValue() override {
+        float temp = sensor.readTemperature();
+       if (Firebase.RTDB.setFloat(&firebaseData, path, temp)){
+        Serial.println("PASSED");
+        Serial.println("PATH: " + firebaseData.dataPath());
+        Serial.println("TYPE: " + firebaseData.dataType());
+      }
+      else {
+        Serial.println("FAILED");
+        Serial.println("REASON: " + firebaseData.errorReason());
+    }
+    };
+  private:
+    DHT sensor;
+};
+
+Temp dht(7, "/temperature", DHT(7, DHT22));
+
+const int led_nb = 4;
+
+Device led[led_nb] = {
+   Device(0, "/Led1Status"),
+   Device(1, "/Led2Status"),
+   Device(2, "/Led3Status"),
+   Device(3, "/Led4Status")
+};
 
 void setup ()
 {
@@ -84,26 +116,13 @@ void setup ()
   Serial.println(WiFi.localIP());
   Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
   Firebase.reconnectWiFi(true);
+  sr.setAllHigh();
 }
 
 void loop() {
-  led1.setDeviceState();
-  /*if (Firebase.getString(firebaseData, "/Led1Status"))
-  {
-    String ledstatus = firebaseData.stringData();
-    if (ledstatus.toInt() == 1) {
-      Serial.println("on3");
-      sr.setAllHigh(); // set all pins HIGH
-      sr.set(0, LOW);
-    }
-    else {
-      Serial.println("off3");
-      sr.setAllHigh(); // set all pins HIGH
-      sr.set(0, HIGH);
-    }
+  for (int i = 0; i < led_nb; i++) {
+    led[i].setDeviceState();  
   }
-  else {
-    Serial.print("Error in getInt, ");
-    Serial.println(firebaseData.errorReason());
-  }*/
+  dht.uploadDeviceValue();
+  
 }
