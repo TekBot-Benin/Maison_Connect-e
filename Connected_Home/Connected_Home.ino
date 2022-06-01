@@ -90,16 +90,26 @@ class Temp : public Device {
     DHT sensor;
 };
 
-Temp dht(7, "/temperature", DHT(7, DHT22));
+Temp dht(10, "/temperature", DHT(7, DHT22));
 
-const int led_nb = 4;
+const int led_nb = 10;
 
 Device led[led_nb] = {
    Device(0, "/Led1Status"),
    Device(1, "/Led2Status"),
    Device(2, "/Led3Status"),
-   Device(3, "/Led4Status")
+   Device(3, "/Led4Status"),
+   Device(4, "/Led5Status"),
+   Device(5, "/Led6Status"),
+   Device(6, "/Led7Status"),
+   Device(7, "/Led8Status"),
+   Device(8, "/Led9Status"),
+   Device(9, "/Led10Status")
 };
+
+Device BrasseurLivingRoom(11, "/BrasseurLivingRoom");
+
+Device tv(12, "/TvStatus");
 
 void setup ()
 {
@@ -123,6 +133,8 @@ void loop() {
   for (int i = 0; i < led_nb; i++) {
     led[i].setDeviceState();  
   }
+  BrasseurLivingRoom.setDeviceState();
+  tv.setDeviceState();
   dht.uploadDeviceValue();
   
 }
