@@ -90,26 +90,32 @@ class Temp : public Device {
     DHT sensor;
 };
 
-Temp dht(10, "/temperature", DHT(7, DHT22));
+Temp dht(16, "/temperature", DHT(7, DHT22));
 
-const int led_nb = 10;
+const int led_nb = 16;
 
 Device led[led_nb] = {
-   Device(0, "/Led1Status"),
-   Device(1, "/Led2Status"),
-   Device(2, "/Led3Status"),
-   Device(3, "/Led4Status"),
-   Device(4, "/Led5Status"),
-   Device(5, "/Led6Status"),
-   Device(6, "/Led7Status"),
-   Device(7, "/Led8Status"),
-   Device(8, "/Led9Status"),
-   Device(9, "/Led10Status")
+   Device(0, "/Led_bathroom_0"),
+   Device(1, "/Led_bathroom1_1"),
+   Device(2, "/Led_bathroom2_1"),
+   Device(3, "/Led_bedroom_0"),
+   Device(4, "/Led_bedroom1_1"),
+   Device(5, "/Led_bedroom2_1"),
+   Device(6, "/Led_bedroom3_1"),
+   Device(7, "/Led_livingroom_0"),
+   Device(8, "/Led_livingroom2_0"),
+   Device(9, "/Led_kitchen_0"),
+   Device(10, "/Led_entrance_0"),
+   Device(11, "/Door_garage_0"),
+   Device(12, "/Led_pool_0"),
+   Device(13, "/Led_dressing_1"),
+   Device(14, "/Led_corridor_1"),
+   Device(15, "/Led_terrace_1")
 };
 
-Device BrasseurLivingRoom(11, "/BrasseurLivingRoom");
+Device BrasseurLivingRoom(17, "/Brasseur_livingroom_0");
 
-Device tv(12, "/TvStatus");
+Device tv(18, "/TvStatus");
 
 void setup ()
 {
